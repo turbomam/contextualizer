@@ -14,6 +14,7 @@ Only processes samples where:
 import json
 import logging
 import click
+import random
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
 from tqdm import tqdm
@@ -163,7 +164,11 @@ def main(input_path: str, output_path: str, radius: int, max_distance: float, ma
     )
     
     if max_samples:
-        confident_samples = confident_samples[:max_samples]
+        if max_samples < len(confident_samples):
+            logger.info(f"Randomly selecting {max_samples} samples out of {len(confident_samples)} confident samples")
+            confident_samples = random.sample(confident_samples, max_samples)
+        else:
+            logger.info(f"Using all {len(confident_samples)} confident samples (requested {max_samples})")
     
     logger.info(f"Processing {len(confident_samples)} biosamples")
     

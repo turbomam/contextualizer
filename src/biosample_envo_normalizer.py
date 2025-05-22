@@ -14,18 +14,23 @@ import logging
 import os
 import re
 import click
+import random
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Set, Tuple
 from tqdm import tqdm
 from time import sleep
 from dataclasses import dataclass
 import asyncio
+from datetime import datetime
 
 # PydanticAI imports
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.providers.openai import OpenAIProvider
+
+# Feature aggregation
+from src.utils.feature_aggregation import analyze_feature_density, FeatureAggregation
 
 # OAK imports
 from oaklib import get_adapter
@@ -45,7 +50,9 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Constants
-MIN_ANNOTATION_LENGTH = 3
+MIN_ANNOTATION_LENGTH = 4  # Minimum length for text annotations
+MIN_LABEL_LENGTH = 3    # Minimum length for EnvO term labels
+MAX_FEATURE_DISTANCE = 850  # Maximum distance in meters for feature consideration
 LEX_INDEX_FILE = "envo_lexical_index.yaml"
 CONFIDENCE_THRESHOLD = 0.7
 
@@ -89,6 +96,7 @@ class EnvOHelper:
     def __init__(self):
         """Initialize the EnvO helper with OAK adapter"""
         # Use OAK SQLite implementation for EnvO
+        logger.info("Initializing EnvO helper with OAK SQLite adapter")
         self.adapter = get_adapter("sqlite:obo:envo")
         
         # Configure text annotation
@@ -125,30 +133,99 @@ class EnvOHelper:
             
             # Check if term exists
             if envo_id not in self.adapter.entities():
-                return None
+                return EnvOLookupResult(
+                    id=envo_id,
+                    label="TERM NOT FOUND",
+                    is_obsolete=False,
+                    definition=None
+                )
             
             # Get label
-            labels = list(self.adapter.labels(envo_id))
-            if not labels:
-                return None
+            try:
+                # Debug logging to understand what's being returned by the adapter
+                labels = list(self.adapter.labels(envo_id))
+                logger.debug(f"Raw labels for {envo_id}: {labels}")
                 
-            # Check if obsolete
-            is_obsolete = self.adapter.is_obsolete(envo_id)
+                # Convert tuple to string if needed
+                if labels and isinstance(labels[0], tuple):
+                    raw_label = str(labels[0][0]) if labels[0][0] else None
+                    logger.debug(f"Extracted label from tuple for {envo_id}: '{raw_label}'")
+                else:
+                    raw_label = str(labels[0]) if labels else None
+                    logger.debug(f"Direct label for {envo_id}: '{raw_label}'")
+                
+                # Validate label length and content
+                if not raw_label:
+                    logger.warning(f"No primary label found for {envo_id}")
+                    use_alternative = True
+                elif len(raw_label.strip()) < MIN_LABEL_LENGTH:
+                    logger.warning(f"Primary label for {envo_id} is too short: '{raw_label}' (min length: {MIN_LABEL_LENGTH})")
+                    use_alternative = True
+                elif raw_label.strip() in ["E", "e", "C", "c"]:
+                    logger.warning(f"Primary label for {envo_id} appears invalid: '{raw_label}'")
+                    use_alternative = True
+                else:
+                    use_alternative = False
+                    
+                if use_alternative:
+                    # Try to get alternative labels if primary is invalid
+                    try:
+                        alt_labels = list(self.adapter.entity_aliases(envo_id))
+                        logger.debug(f"Alternative labels for {envo_id}: {alt_labels}")
+                        
+                        # Filter for valid alternative labels
+                        valid_alt_labels = [l for l in alt_labels if isinstance(l, str) and len(l.strip()) >= MIN_LABEL_LENGTH]
+                        
+                        if valid_alt_labels:
+                            label = valid_alt_labels[0]
+                            logger.info(f"Using alternative label '{label}' for {envo_id} (primary label '{raw_label}' invalid or too short)")
+                            
+                            # Log all available alternatives for debugging
+                            if len(valid_alt_labels) > 1:
+                                logger.debug(f"Other valid alternatives for {envo_id}: {valid_alt_labels[1:]}")
+                        else:
+                            # If no valid alt labels, use the ID as a fallback
+                            label = f"Term {envo_id}"
+                            logger.warning(f"No valid labels found for {envo_id}, using ID as label. Raw alt_labels: {alt_labels}")
+                    except Exception as e:
+                        logger.warning(f"Error getting alternative labels for {envo_id}: {e}")
+                        label = f"Term {envo_id}"
+                else:
+                    label = raw_label
+                    
+            except Exception as e:
+                logger.warning(f"Error getting label for {envo_id}: {e}")
+                label = f"Term {envo_id}"
+                
+            # Check if obsolete - handle SQLite implementation that may not have is_obsolete
+            is_obsolete = False  # Default to not obsolete
             
             # Get definition if available
-            definitions = list(self.adapter.definitions(envo_id))
-            definition = definitions[0] if definitions else None
+            try:
+                definitions = list(self.adapter.definitions(envo_id))
+                definition = str(definitions[0]) if definitions else None
+                # Handle tuple definitions
+                if isinstance(definition, tuple) and definition:
+                    definition = str(definition[0])
+            except Exception:
+                definition = None
             
             return EnvOLookupResult(
                 id=envo_id,
-                label=labels[0],
+                label=label,
                 is_obsolete=is_obsolete,
                 definition=definition
             )
             
         except Exception as e:
             logger.warning(f"Error getting info for {envo_id}: {e}")
-            return None
+            # Return a placeholder result instead of None to prevent downstream errors
+            return EnvOLookupResult(
+                id=envo_id,
+                label="TERM NOT FOUND",
+                is_obsolete=False,
+                definition=None
+            )
     
     def is_true_whole_word_match(self, text: str, match_string: str) -> bool:
         """Verify if match_string occurs as a complete word"""
@@ -159,17 +236,41 @@ class EnvOHelper:
         """Filter annotations based on quality criteria"""
         filtered = []
         for ann in annotations:
+            # Get the match string
+            match_string = getattr(ann, "match_string", None)
+            
+            # Skip if match_string is None or empty
+            if not match_string or len(match_string.strip()) == 0:
+                continue
+                
             # Skip too-short annotations
             if hasattr(ann, "subject_start") and hasattr(ann, "subject_end"):
                 ann_length = ann.subject_end - ann.subject_start + 1
                 if ann_length < MIN_ANNOTATION_LENGTH:
+                    logger.debug(f"Skipping annotation '{match_string}' - too short ({ann_length} chars)")
                     continue
             
+            # Skip very short match strings directly
+            if len(match_string.strip()) < MIN_ANNOTATION_LENGTH:
+                logger.debug(f"Skipping annotation '{match_string}' - match string too short")
+                continue
+                
+            # Skip single-character matches (even if they're technically longer due to whitespace)
+            if len(match_string.strip()) <= 1:
+                logger.debug(f"Skipping annotation '{match_string}' - single character match")
+                continue
+                
             # Ensure whole word matches for single words
-            match_string = getattr(ann, "match_string", None)
             if match_string and " " not in match_string:
                 if not self.is_true_whole_word_match(text, match_string):
+                    logger.debug(f"Skipping annotation '{match_string}' - not a whole word match")
                     continue
+            
+            # Skip matches that are just common words or abbreviations
+            skip_terms = ["e", "a", "an", "the", "and", "of", "in", "on", "at"]
+            if match_string.lower() in skip_terms:
+                logger.debug(f"Skipping common word annotation '{match_string}'")
+                continue
             
             filtered.append(ann)
         return filtered
@@ -359,87 +460,194 @@ class EnvoNormalizerAgent(Agent):
             logger.error(f"Error searching for '{query}': {e}")
             return []
     
-    async def map_feature_to_envo(self, feature: OSMFeature, biosample_env_terms: Optional[Dict[str, Dict[str, str]]] = None) -> Optional[EnvOMapping]:
+    async def map_feature_to_envo(self, feature: OSMFeature, biosample_id: str = "unknown", 
+                            biosample_coords: Tuple[float, float] = (None, None),
+                            biosample_env_terms: Optional[Dict[str, Dict[str, str]]] = None) -> Optional[EnvOMapping]:
         """
         Map an OSM feature to the most appropriate EnvO term.
         
         Args:
             feature: OSM feature to map
+            biosample_id: ID of the biosample being processed
+            biosample_coords: Coordinates (lat, lon) of the biosample
             biosample_env_terms: Existing environment terms in the biosample (optional)
             
         Returns:
             EnvO mapping with confidence and reasoning
         """
         try:
-            # Create feature description
+            # Log context information for this mapping process
+            lat, lon = biosample_coords
+            logger.info(f"Processing EnvO mapping for biosample {biosample_id} at location {lat}, {lon}")
+            logger.info(f"OSM feature: {feature.feature_id} ({feature.feature_type}) at distance {feature.distance_from_center}m")
+            
+            # Step 1: Create feature description
             feature_desc = (
                 f"OSM Feature Type: {feature.feature_type}\n"
                 f"Distance from sample: {feature.distance_from_center} meters\n"
                 f"Tags: {feature.tags}\n"
             )
             
-            # Add biosample's asserted environment terms for context
+            # Step 2: First, proactively search for relevant EnvO terms using OAK
+            feature_type_parts = feature.feature_type.split(':')
+            search_terms = []
+            
+            # Extract search terms from feature type and tags
+            if len(feature_type_parts) > 1:
+                search_terms.append(feature_type_parts[1])  # e.g., "tree" from "natural:tree"
+                # Also add more general terms for common OSM features
+                if feature_type_parts[1] == "tree":
+                    search_terms.extend(["forest", "woodland", "vegetation"])
+                elif feature_type_parts[1] == "water":
+                    search_terms.extend(["lake", "pond", "river", "stream", "aquatic"])
+                elif feature_type_parts[1] == "beach":
+                    search_terms.extend(["coast", "shore", "sand"])
+                elif feature_type_parts[1] == "wood":
+                    search_terms.extend(["forest", "woodland", "vegetation"])
+            
+            # Add the main category as a search term
+            if len(feature_type_parts) > 0:
+                search_terms.append(feature_type_parts[0])  # e.g., "natural" from "natural:tree"
+                # Add appropriate general environmental terms based on category
+                if feature_type_parts[0] == "natural":
+                    search_terms.extend(["habitat", "ecosystem", "biome", "environment"])
+                elif feature_type_parts[0] == "landuse":
+                    search_terms.extend(["land use", "anthropogenic", "managed"])
+                elif feature_type_parts[0] == "waterway":
+                    search_terms.extend(["aquatic", "freshwater", "water body"])
+            
+            # Add important tags as search terms
+            for key, value in feature.tags.items():
+                search_terms.append(value)
+                
+            # Add some general search terms that apply to most features
+            search_terms.extend(["environmental feature", "geographical feature"])
+            
+            # Get context from biosample's asserted environment terms
             env_context = ""
             if biosample_env_terms:
                 env_context = "\nExisting biosample environment terms:\n"
                 for field, term in biosample_env_terms.items():
                     env_context += f"- {field}: {term['id']} ({term['name']})\n"
+                logger.info(f"Biosample {biosample_id} has existing environment terms: {biosample_env_terms}")
             
-            # Use annotation tool to find relevant terms
-            annotation_result = await self.annotate_text_with_envo(feature_desc)
+            # Step 3: Collect valid EnvO terms using OAK directly
+            valid_terms = []
+            logger.info(f"Biosample {biosample_id}: Searching for EnvO terms for feature {feature.feature_id} ({feature.feature_type})")
+            logger.info(f"Biosample {biosample_id}: Search terms: {search_terms}")
             
-            # Add matches to the description
-            terms_text = ""
-            if annotation_result.matches:
-                terms_text = "\nEnvO terms found in description:\n"
-                for match in annotation_result.matches:
-                    terms_text += f"- {match['id']} ({match['label']}): '{match['match']}'\n"
+            for term in search_terms:
+                try:
+                    # Use OAK basic search directly
+                    search_results = self.envo_helper.adapter.basic_search(term)
+                    result_list = list(search_results)
+                    
+                    if result_list:
+                        logger.info(f"Biosample {biosample_id}: Found {len(result_list)} results for search term '{term}'")
+                        # Get term info for top 5 results
+                        for term_id in result_list[:5]:
+                            term_info = self.envo_helper.get_term_info(term_id)
+                            # Validate term has a proper label (not just "E" or "Term X")
+                            if (term_info and 
+                                term_info.label != "TERM NOT FOUND" and 
+                                not term_info.label.startswith("Term ") and
+                                len(term_info.label) >= MIN_LABEL_LENGTH and
+                                term_info.label.strip() not in ["E", "e"]):
+                                logger.info(f"  Biosample {biosample_id}: - {term_id} ({term_info.label})")
+                                valid_terms.append(term_info)
+                    else:
+                        logger.info(f"Biosample {biosample_id}: No results found for search term '{term}'")
+                        
+                except Exception as e:
+                    logger.warning(f"Error searching for '{term}': {e}")
             
-            # For specific feature types, suggest relevant EnvO terms
-            suggestions = ""
-            if feature.feature_type.startswith("natural:water") or "water" in feature.tags:
-                water_terms = await self.search_envo_terms("water body")
-                if water_terms:
-                    suggestions += "\nSuggested water body terms:\n"
-                    for term in water_terms:
-                        suggestions += f"- {term.id} ({term.label})\n"
-            elif feature.feature_type.startswith("natural:forest") or "forest" in feature.tags:
-                forest_terms = await self.search_envo_terms("forest")
-                if forest_terms:
-                    suggestions += "\nSuggested forest terms:\n"
-                    for term in forest_terms:
-                        suggestions += f"- {term.id} ({term.label})\n"
-            elif feature.feature_type.startswith("landuse:") or "landuse" in feature.tags:
-                landuse_terms = await self.search_envo_terms("land use")
-                if landuse_terms:
-                    suggestions += "\nSuggested land use terms:\n"
-                    for term in landuse_terms:
-                        suggestions += f"- {term.id} ({term.label})\n"
+            # Step 4: Use text annotation to find more terms
+            annotation_result = self.envo_helper.annotate_text(feature_desc)
             
-            # Prepare query
-            query = f"""Analyze this OpenStreetMap feature and map it to the most appropriate EnvO term:
+            # Add annotation matches to valid terms
+            for match in annotation_result.matches:
+                term_id = match['id']
+                term_info = self.envo_helper.get_term_info(term_id)
+                # Apply same validation as for search results
+                if (term_info and 
+                    term_info.label != "TERM NOT FOUND" and 
+                    not term_info.label.startswith("Term ") and
+                    len(term_info.label) >= MIN_LABEL_LENGTH and
+                    term_info.label.strip() not in ["E", "e"]):
+                    logger.info(f"  - Found annotation: {term_id} ({term_info.label})")
+                    valid_terms.append(term_info)
+            
+            # Deduplicate terms
+            unique_terms = {}
+            for term in valid_terms:
+                if term.id not in unique_terms:
+                    unique_terms[term.id] = term
+            
+            valid_terms = list(unique_terms.values())
+            
+            # If no valid terms found, add fallback generic EnvO terms
+            if not valid_terms:
+                logger.warning(f"No valid EnvO terms found for feature {feature.feature_id} - adding fallbacks")
+                
+                # Add some generic fallback terms based on feature type
+                fallback_terms = []
+                
+                # Common generic EnvO terms that exist in most EnvO versions
+                generic_terms = [
+                    "ENVO:00010483",  # environmental material
+                    "ENVO:00002297",  # environmental feature
+                    "ENVO:00000428",  # biome
+                    "ENVO:01000254",  # geographic feature
+                    "ENVO:00002003",  # natural material
+                    "ENVO:00000337",  # habitat
+                ]
+                
+                # Try to get these generic terms
+                for term_id in generic_terms:
+                    term_info = self.envo_helper.get_term_info(term_id)
+                    if term_info and term_info.label != "TERM NOT FOUND":
+                        fallback_terms.append(term_info)
+                        logger.info(f"Added fallback term: {term_id} ({term_info.label})")
+                
+                # If we found any fallback terms, use them
+                if fallback_terms:
+                    valid_terms = fallback_terms
+                else:
+                    logger.error(f"No fallback terms could be found - cannot map feature {feature.feature_id}")
+                    return None
+            
+            # Step 5: Format for LLM to make a selection from valid terms
+            terms_text = "\nValid EnvO terms found for this feature:\n"
+            for i, term in enumerate(valid_terms):
+                definition = f" - {term.definition}" if term.definition else ""
+                terms_text += f"{i+1}. {term.id} ({term.label}){definition}\n"
+            
+            # Step 6: Have the LLM select from the valid terms
+            query = f"""Analyze this OpenStreetMap feature and select the most appropriate EnvO term from the list provided:
 
 Feature Description:
 {feature_desc}
 {env_context}
-{terms_text}
-{suggestions}
 
-Please determine the most appropriate EnvO term that represents this geographical feature and its environmental significance.
-Also determine which NMDC environmental field this term would be most appropriate for.
+{terms_text}
+
+Your task:
+1. Select ONE term from the numbered list above that best represents this geographical feature's environmental significance
+2. Determine which NMDC environmental field this term would be most appropriate for:
+   - env_broad_scale: The broad-scale environment context (e.g., biomes, large environmental systems)
+   - env_local_scale: The local environment context (e.g., habitats, ecosystems)
+   - env_medium: The environmental material (e.g., soil, water, air, sediment)
 
 Respond with a JSON object containing:
-1. envo_id: The EnvO ID in the format ENVO:XXXXXXXX
-2. envo_label: The human-readable label for the EnvO term
-3. confidence: A score between 0.0 and 1.0 indicating your confidence in this mapping
-4. reasoning: Your explanation for why this EnvO term is appropriate
-5. nmdc_field: The NMDC field this term would be most appropriate for (env_broad_scale, env_local_scale, or env_medium)
-6. nmdc_field_confidence: A score between 0.0 and 1.0 indicating your confidence in the field assignment
+1. selection: The number of your selected term from the list (e.g., 1, 2, 3)
+2. confidence: A score between 0.0 and 1.0 indicating your confidence in this selection
+3. reasoning: Your explanation for why this EnvO term is appropriate
+4. nmdc_field: The NMDC field this term would be most appropriate for
+5. nmdc_field_confidence: A score between 0.0 and 1.0 indicating your confidence in the field assignment
 
 JSON format:
 {{
-  "envo_id": "ENVO:XXXXXXXX",
-  "envo_label": "term name",
+  "selection": 1,
   "confidence": 0.95,
   "reasoning": "explanation",
   "nmdc_field": "env_local_scale",
@@ -464,23 +672,27 @@ JSON format:
             # Parse the mapping
             mapping_data = json.loads(json_str)
             
-            # Validate the EnvO ID
-            term_info = await self.get_envo_term(mapping_data["envo_id"])
-            if term_info.label == "TERM NOT FOUND":
-                logger.warning(f"Invalid EnvO ID suggested: {mapping_data['envo_id']}")
-                return None
-                
+            # Get the selected term
+            selection = mapping_data.get("selection", 1)
+            if not isinstance(selection, int) or selection < 1 or selection > len(valid_terms):
+                logger.warning(f"Invalid selection: {selection}")
+                # Default to first term if selection is invalid
+                selection = 1
+            
+            # Adjust to 0-based index
+            selected_term = valid_terms[selection - 1]
+            
             # Create the mapping with feature ID and type
             mapping = EnvOMapping(
-                envo_id=mapping_data["envo_id"],
-                envo_label=term_info.label,  # Use the validated label
-                confidence=mapping_data["confidence"],
-                reasoning=mapping_data["reasoning"],
+                envo_id=selected_term.id,
+                envo_label=selected_term.label,
+                confidence=mapping_data.get("confidence", 0.5),
+                reasoning=mapping_data.get("reasoning", "No reasoning provided"),
                 feature_id=feature.feature_id,
                 feature_type=feature.feature_type,
                 distance=feature.distance_from_center,
                 nmdc_field=mapping_data.get("nmdc_field"),
-                nmdc_field_confidence=mapping_data.get("nmdc_field_confidence")
+                nmdc_field_confidence=mapping_data.get("nmdc_field_confidence", 0.5)
             )
             
             return mapping
@@ -531,12 +743,14 @@ def extract_biosample_env_terms(biosample: Dict[str, Any]) -> Dict[str, Dict[str
     
     return env_terms
 
-def extract_osm_features(biosample: Dict[str, Any]) -> List[OSMFeature]:
+def extract_osm_features(biosample: Dict[str, Any], include_distant: bool = False) -> List[OSMFeature]:
     """
     Extract OSM features from a biosample's metadata.
     
     Args:
         biosample: Biosample dictionary with OSM features
+        include_distant: Whether to include features beyond MAX_FEATURE_DISTANCE
+                        (useful for feature aggregation analysis)
         
     Returns:
         List of OSM features as structured objects
@@ -544,8 +758,17 @@ def extract_osm_features(biosample: Dict[str, Any]) -> List[OSMFeature]:
     features = []
     
     if 'osm_features' not in biosample:
+        logger.warning(f"No OSM features found in biosample {biosample.get('id', 'unknown')}")
         return features
         
+    # Log the feature metadata
+    if 'metadata' in biosample['osm_features']:
+        metadata = biosample['osm_features']['metadata']
+        logger.info(f"OSM features metadata: total={metadata.get('total_features', 0)}, "
+                   f"coords={metadata.get('query_coordinates', [])}")
+        if 'feature_type_counts' in metadata:
+            logger.info(f"Feature type counts: {metadata['feature_type_counts']}")
+            
     # Get asserted environment terms for context
     env_terms = extract_biosample_env_terms(biosample)
     
@@ -559,29 +782,38 @@ def extract_osm_features(biosample: Dict[str, Any]) -> List[OSMFeature]:
     for category in primary_categories:
         if category in biosample['osm_features'].get('features', {}):
             processed_categories.add(category)
+            category_features = biosample['osm_features']['features'][category]
+            logger.info(f"Found {len(category_features)} features in category '{category}'")
             
             # For each feature in the category
-            for feature_data in biosample['osm_features']['features'][category]:
+            for feature_data in category_features:
                 try:
                     # Extract coordinates
                     if isinstance(feature_data.get('coordinates'), list) and len(feature_data.get('coordinates')) == 2:
                         coordinates = tuple(feature_data['coordinates'])
                     else:
+                        logger.warning(f"Invalid coordinates for feature {feature_data.get('id')}: {feature_data.get('coordinates')}")
                         continue
-                        
+                    
+                    # Get distance
+                    distance = feature_data.get('distance_from_center', 0.0)
+                    
                     # Create feature object
                     feature = OSMFeature(
                         feature_id=feature_data.get('id', f"unknown-{len(features)}"),
                         feature_type=feature_data.get('type', f"{category}:unknown"),
                         tags=feature_data.get('environmental_tags', {}),
                         coordinates=coordinates,
-                        distance_from_center=feature_data.get('distance_from_center', 0.0),
+                        distance_from_center=distance,
                         area=feature_data.get('area')
                     )
                     
-                    # Only include features within 500m for better relevance
-                    if feature.distance_from_center <= 500:
+                    # Check if we should include this feature
+                    if distance <= MAX_FEATURE_DISTANCE or include_distant:
                         features.append(feature)
+                        logger.debug(f"Added feature {feature.feature_id}: {feature.feature_type} (distance: {distance}m)")
+                    else:
+                        logger.info(f"Skipping feature {feature.feature_id}: {feature.feature_type} - too far ({distance}m > {MAX_FEATURE_DISTANCE}m)")
                     
                 except Exception as e:
                     logger.warning(f"Error processing feature: {e}")
@@ -593,6 +825,7 @@ def extract_osm_features(biosample: Dict[str, Any]) -> List[OSMFeature]:
             continue
             
         processed_categories.add(category)
+        logger.info(f"Found {len(category_features)} features in category '{category}'")
         
         for feature_data in category_features:
             try:
@@ -600,21 +833,28 @@ def extract_osm_features(biosample: Dict[str, Any]) -> List[OSMFeature]:
                 if isinstance(feature_data.get('coordinates'), list) and len(feature_data.get('coordinates')) == 2:
                     coordinates = tuple(feature_data['coordinates'])
                 else:
+                    logger.warning(f"Invalid coordinates for feature {feature_data.get('id')}: {feature_data.get('coordinates')}")
                     continue
-                    
+                
+                # Get distance
+                distance = feature_data.get('distance_from_center', 0.0)
+                
                 # Create feature object
                 feature = OSMFeature(
                     feature_id=feature_data.get('id', f"unknown-{len(features)}"),
                     feature_type=feature_data.get('type', f"{category}:unknown"),
                     tags=feature_data.get('environmental_tags', {}),
                     coordinates=coordinates,
-                    distance_from_center=feature_data.get('distance_from_center', 0.0),
+                    distance_from_center=distance,
                     area=feature_data.get('area')
                 )
                 
-                # Only include features within 500m for better relevance
-                if feature.distance_from_center <= 500:
+                # Check if we should include this feature
+                if distance <= MAX_FEATURE_DISTANCE or include_distant:
                     features.append(feature)
+                    logger.debug(f"Added feature {feature.feature_id}: {feature.feature_type} (distance: {distance}m)")
+                else:
+                    logger.info(f"Skipping feature {feature.feature_id}: {feature.feature_type} - too far ({distance}m > {MAX_FEATURE_DISTANCE}m)")
                     
             except Exception as e:
                 logger.warning(f"Error processing feature: {e}")
@@ -651,6 +891,29 @@ def extract_osm_features(biosample: Dict[str, Any]) -> List[OSMFeature]:
     
     return features
 
+def analyze_feature_aggregations(features: List[OSMFeature]) -> List[FeatureAggregation]:
+    """
+    Analyze feature density to make inferences about broader environmental context.
+    
+    Args:
+        features: List of OSM features
+    
+    Returns:
+        List of environmental inferences from feature density
+    """
+    # Convert OSMFeature objects to dictionaries for analyze_feature_density
+    feature_dicts = []
+    for feature in features:
+        feature_dicts.append({
+            "feature_id": feature.feature_id,
+            "feature_type": feature.feature_type,
+            "distance_from_center": feature.distance_from_center,
+            "tags": feature.tags
+        })
+    
+    # Get aggregation inferences
+    return analyze_feature_density(feature_dicts)
+
 async def process_biosample(agent: EnvoNormalizerAgent, biosample: Dict[str, Any], 
                          max_features: int = 20) -> Dict[str, Any]:
     """
@@ -664,84 +927,187 @@ async def process_biosample(agent: EnvoNormalizerAgent, biosample: Dict[str, Any
     Returns:
         Biosample dictionary enriched with EnvO mappings
     """
-    # Extract biosample's existing EnvO terms for context
-    env_terms = extract_biosample_env_terms(biosample)
+    # Create a copy of the biosample to avoid modifying the original
+    enriched = biosample.copy()
     
-    # Extract OSM features
-    features = extract_osm_features(biosample)
+    # Get biosample ID and coordinates
+    biosample_id = biosample.get('id', 'unknown')
     
-    if not features:
-        logger.warning(f"No OSM features found for biosample {biosample.get('id')}")
-        return biosample
-    
-    # Limit number of features to process
-    if len(features) > max_features:
-        logger.info(f"Limiting from {len(features)} to {max_features} features for biosample {biosample.get('id')}")
-        features = features[:max_features]
-    
-    # Process features to get EnvO mappings
-    mappings_by_type = {}
-    
-    # Process each feature with the agent
-    for feature in features:
+    # Extract coordinates
+    lat, lon = None, None
+    lat_lon = biosample.get('lat_lon', {})
+    if isinstance(lat_lon, dict) and 'latitude' in lat_lon and 'longitude' in lat_lon:
         try:
-            mapping = await agent.map_feature_to_envo(feature, env_terms)
-            if mapping and mapping.confidence >= CONFIDENCE_THRESHOLD:
-                if feature.feature_type not in mappings_by_type:
-                    mappings_by_type[feature.feature_type] = []
-                mappings_by_type[feature.feature_type].append(mapping)
-        except Exception as e:
-            logger.error(f"Error mapping feature {feature.feature_type}: {e}")
+            lat = float(lat_lon['latitude'])
+            lon = float(lat_lon['longitude'])
+        except (ValueError, TypeError):
+            pass
     
-    # Group mappings by NMDC field for easier comparison with asserted values
-    mappings_by_field = {
+    logger.info(f"Processing biosample {biosample_id} at coordinates: {lat}, {lon}")
+    
+    # Add a timestamp
+    enriched['envo_mapping_debug'] = {
+        'processed_at': datetime.now().isoformat(),
+        'status': 'Processing started'
+    }
+    
+    # Initialize empty mappings
+    enriched['envo_mappings'] = {}
+    enriched['envo_mappings_by_field'] = {
         'env_broad_scale': [],
         'env_local_scale': [],
         'env_medium': []
     }
     
-    # Sort all mappings by field and confidence
-    for feature_type, mappings in mappings_by_type.items():
-        for mapping in mappings:
-            if mapping.nmdc_field and mapping.nmdc_field in mappings_by_field:
-                mappings_by_field[mapping.nmdc_field].append(mapping.dict())
+    # Add field for feature aggregation inferences
+    enriched['feature_aggregations'] = []
     
-    # Sort each field's mappings by confidence (highest first)
-    for field in mappings_by_field:
-        mappings_by_field[field] = sorted(
-            mappings_by_field[field], 
-            key=lambda m: m.get('nmdc_field_confidence', 0.0) * m.get('confidence', 0.0),
-            reverse=True
-        )
-    
-    # Add EnvO mappings to biosample metadata
-    enriched = biosample.copy()
-    enriched['envo_mappings'] = {
-        feature_type: [mapping.dict() for mapping in mappings]
-        for feature_type, mappings in mappings_by_type.items()
-    }
-    
-    enriched['envo_mappings_by_field'] = mappings_by_field
-    
-    # Add summary statistics
-    total_mappings = sum(len(mappings) for mappings in enriched['envo_mappings'].values())
+    # Initialize stats
     enriched['envo_mapping_stats'] = {
-        'total_features_processed': len(features),
-        'features_with_mappings': total_mappings,
-        'mapping_coverage': total_mappings / len(features) if features else 0.0,
+        'total_features_processed': 0,
+        'features_with_mappings': 0,
+        'mapping_coverage': 0.0,
         'confidence_threshold': CONFIDENCE_THRESHOLD,
         'field_coverage': {
-            field: len(mappings) > 0 
-            for field, mappings in mappings_by_field.items()
+            'env_broad_scale': False,
+            'env_local_scale': False,
+            'env_medium': False
         },
         'agreement_with_asserted': {
-            field: any(
-                mapping.get('envo_id', '').replace(':', '_') == env_terms.get(field, {}).get('id', '').replace(':', '_')
-                for mapping in mappings_by_field[field]
-            ) if field in env_terms and mappings_by_field[field] else False
-            for field in mappings_by_field
-        }
+            'env_broad_scale': False,
+            'env_local_scale': False,
+            'env_medium': False
+        },
+        'aggregation_inferences': 0
     }
+    
+    try:
+        # Step 1: Extract OSM features from the biosample
+        features = extract_osm_features(biosample)
+        
+        # Log feature information
+        logger.info(f"Extracted {len(features)} features from biosample {biosample_id}")
+        for f in features:
+            logger.info(f"  Biosample {biosample_id}: Feature {f.feature_id}: {f.feature_type}, distance={f.distance_from_center}m")
+        
+        if not features:
+            enriched['envo_mapping_debug']['status'] = 'No OSM features found'
+            return enriched
+            
+        # Limit to max_features if needed
+        if max_features and len(features) > max_features:
+            features = features[:max_features]
+        
+        # Step 2: Extract asserted environment terms for context
+        env_terms = extract_biosample_env_terms(biosample)
+        
+        # Step 3: Process each feature to map it to an EnvO term
+        mappings = []
+        
+        for feature in features:
+            # Update the processing status
+            enriched['envo_mapping_debug']['status'] = f'Processing feature {feature.feature_id}'
+            
+            # Map feature to EnvO term
+            mapping = await agent.map_feature_to_envo(
+                feature, 
+                biosample_id=biosample_id,
+                biosample_coords=(lat, lon),
+                biosample_env_terms=env_terms
+            )
+            
+            if mapping and mapping.confidence >= CONFIDENCE_THRESHOLD:
+                mappings.append(mapping)
+                
+                # Add to the mappings dictionary indexed by feature ID
+                enriched['envo_mappings'][feature.feature_id] = mapping.model_dump()
+                
+                # Add to the appropriate field-specific mapping list if the field is specified
+                if mapping.nmdc_field and mapping.nmdc_field in enriched['envo_mappings_by_field']:
+                    enriched['envo_mappings_by_field'][mapping.nmdc_field].append(mapping.model_dump())
+        
+        # Step 4: Update statistics
+        enriched['envo_mapping_stats']['total_features_processed'] = len(features)
+        enriched['envo_mapping_stats']['features_with_mappings'] = len(mappings)
+        
+        # Calculate mapping coverage (percentage of features that were mapped)
+        if features:
+            enriched['envo_mapping_stats']['mapping_coverage'] = len(mappings) / len(features)
+        
+        # Step 5: Check if each field has at least one mapping
+        for field in ['env_broad_scale', 'env_local_scale', 'env_medium']:
+            enriched['envo_mapping_stats']['field_coverage'][field] = len(enriched['envo_mappings_by_field'][field]) > 0
+        
+        # Step 6: Check agreement with asserted terms
+        for field, term in env_terms.items():
+            if field in enriched['envo_mappings_by_field'] and term.get('id'):
+                # Check if any of our mappings match the asserted term
+                field_mappings = enriched['envo_mappings_by_field'][field]
+                for mapping in field_mappings:
+                    if mapping['envo_id'] == term['id']:
+                        enriched['envo_mapping_stats']['agreement_with_asserted'][field] = True
+                        break
+        
+        # Step 7: Rank mappings by confidence
+        for field in ['env_broad_scale', 'env_local_scale', 'env_medium']:
+            enriched['envo_mappings_by_field'][field].sort(
+                key=lambda x: (x.get('nmdc_field_confidence', 0) * x.get('confidence', 0)), 
+                reverse=True
+            )
+        
+        # Step 8: Add feature aggregation inferences
+        # This analyzes feature density to make broader environmental inferences
+        # For example, if there are many trees, we can infer it's a forest
+        try:
+            # Get all features (not just the ones we processed for EnvO mapping)
+            all_features = extract_osm_features(biosample, include_distant=True)
+            
+            if all_features:
+                aggregations = analyze_feature_aggregations(all_features)
+                
+                if aggregations:
+                    logger.info(f"Found {len(aggregations)} feature aggregation inferences")
+                    
+                    # Add to enriched biosample
+                    for aggregation in aggregations:
+                        enriched['feature_aggregations'].append(aggregation.dict())
+                        
+                        # Also add to the appropriate field
+                        if aggregation.suggested_nmdc_field in enriched['envo_mappings_by_field']:
+                            # Create a mapping entry
+                            aggregation_mapping = {
+                                'envo_id': aggregation.envo_id,
+                                'envo_label': aggregation.name,
+                                'confidence': aggregation.confidence,
+                                'reasoning': aggregation.reasoning,
+                                'feature_id': f"aggregation-{aggregation.feature_type}",
+                                'feature_type': f"aggregation:{aggregation.feature_type}",
+                                'distance': 0.0,  # Aggregation doesn't have a single distance
+                                'nmdc_field': aggregation.suggested_nmdc_field,
+                                'nmdc_field_confidence': 0.9,  # High confidence in the field assignment
+                                'is_aggregation': True,
+                                'feature_count': aggregation.feature_count
+                            }
+                            
+                            enriched['envo_mappings_by_field'][aggregation.suggested_nmdc_field].append(aggregation_mapping)
+                    
+                    # Update stats
+                    enriched['envo_mapping_stats']['aggregation_inferences'] = len(aggregations)
+                    
+                    # Set field coverage for any fields that got aggregation mappings
+                    for field in ['env_broad_scale', 'env_local_scale', 'env_medium']:
+                        if any(a.get('is_aggregation', False) for a in enriched['envo_mappings_by_field'][field]):
+                            enriched['envo_mapping_stats']['field_coverage'][field] = True
+        except Exception as e:
+            logger.error(f"Error processing feature aggregations: {e}")
+        
+        # Final status update
+        enriched['envo_mapping_debug']['status'] = 'Successfully processed'
+        
+    except Exception as e:
+        logger.error(f"Error processing biosample: {e}")
+        enriched['envo_mapping_debug']['status'] = f'Error: {str(e)}'
+        enriched['envo_mapping_debug']['error'] = str(e)
     
     return enriched
 
@@ -756,14 +1122,23 @@ async def process_biosample(agent: EnvoNormalizerAgent, biosample: Dict[str, Any
               help='Maximum number of features to process per biosample (default: 20)')
 @click.option('--confidence', type=float, default=0.7,
               help='Confidence threshold for accepting EnvO mappings (default: 0.7)')
+@click.option('--biosample-index', type=int, default=0,
+              help='Index of the specific biosample to process (default: 0)')
+@click.option('--debug', is_flag=True, default=False,
+              help='Enable debug logging')
 def main_cli(input_path: str, output_path: str, max_samples: int,
-          max_features: int, confidence: float):
+          max_features: int, confidence: float, biosample_index: int, debug: bool):
     """Command-line entry point that runs the async main function."""
     import asyncio
-    asyncio.run(main(input_path, output_path, max_samples, max_features, confidence))
+    # Set debug logging if requested
+    if debug:
+        logging.getLogger().setLevel(logging.DEBUG)
+        logger.setLevel(logging.DEBUG)
+        
+    asyncio.run(main(input_path, output_path, max_samples, max_features, confidence, biosample_index))
 
 async def main(input_path: str, output_path: str, max_samples: int, 
-               max_features: int, confidence: float):
+               max_features: int, confidence: float, biosample_index: int = 0):
     """
     Process NMDC biosamples with OSM features to add EnvO mappings.
     Uses PydanticAI agent with OAK integration to map OSM features to
@@ -784,10 +1159,17 @@ async def main(input_path: str, output_path: str, max_samples: int,
     
     logger.info(f"Found {len(biosamples)} biosamples with OSM features")
     
-    # Limit samples if specified
-    if max_samples and max_samples < len(biosamples):
-        logger.info(f"Limiting to {max_samples} biosamples")
-        biosamples = biosamples[:max_samples]
+    # Handle biosample selection
+    if biosample_index >= 0 and biosample_index < len(biosamples):
+        logger.info(f"Selecting biosample at index {biosample_index}: {biosamples[biosample_index].get('id', 'unknown')}")
+        biosamples = [biosamples[biosample_index]]
+    elif biosample_index >= len(biosamples):
+        logger.warning(f"Biosample index {biosample_index} is out of range. Using first biosample.")
+        biosamples = [biosamples[0]]
+    # Limit samples if specified and no specific index was requested
+    elif max_samples and max_samples < len(biosamples) and biosample_index == 0:
+        logger.info(f"Randomly selecting {max_samples} biosamples out of {len(biosamples)} total")
+        biosamples = random.sample(biosamples, max_samples)
     
     # Initialize agent
     agent = EnvoNormalizerAgent()

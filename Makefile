@@ -4,7 +4,7 @@ RUN_UV_PYTHON=uv run
 RUN_UV_PYTEST=uv run pytest
 
 # Default target
-all: local/oak_ridge_features.json local/nmdc-ai-map-enriched.json local/nmdc-osm-enriched.json local/nmdc-envo-normalized.json
+all: local/oak_ridge_features.json local/nmdc-ai-map-enriched.json local/nmdc-osm-enriched.json local/nmdc-envo-normalized.json nmdc-osm-envo-test-cases.json
 
 # Directory setup
 local/:
@@ -24,7 +24,7 @@ local/nmdc-latlon-inferred.json local/nmdc-latlon-summary.json: src/make_nmdc_bi
 		--input $(word 2,$^) \
 		--add-inferred-latlon \
 		--add-inferred-elevation \
-		--random-n 130 \
+		--random-n 1300 \
 		--output local/nmdc-latlon-inferred.json \
 		--summary-output local/nmdc-latlon-summary.json
 		
@@ -44,14 +44,14 @@ local/nmdc-osm-enriched.json: src/biosample_osm_enricher.py local/nmdc-latlon-in
 		--output $@ \
 		--radius 1000 \
 		--max-distance 10000 \
-		--max-samples 13
+		--max-samples 130
 
 # Apply EnvO normalization to OSM features
 local/nmdc-envo-normalized.json: src/biosample_envo_normalizer.py local/nmdc-osm-enriched.json
 	$(RUN_UV_PYTHON) -m src.biosample_envo_normalizer \
 		--input $(word 2,$^) \
 		--output $@ \
-		--max-samples 13 \
+		--max-samples 130 \
 		--max-features 20 \
 		--confidence 0.7
 
@@ -65,8 +65,8 @@ local/nmdc-comparison-summary.json local/nmdc-llm-comparison.json: src/biosample
 		--max-samples 13
 
 # Testing targets
-.PHONY: test-agent test-minimal test-soil
-test: test-agent test-minimal test-soil
+.PHONY: test-agent test-minimal test-soil test-feature-aggregation
+test: test-agent test-minimal test-soil test-feature-aggregation
 
 test-agent:
 	$(RUN_UV_PYTEST) tests/test_agent.py -v
@@ -76,10 +76,44 @@ test-minimal:
 
 test-soil:
 	$(RUN_UV_PYTEST) tests/test_soil_agent.py -v
+	
+test-feature-aggregation:
+	$(RUN_UV_PYTEST) tests/test_feature_aggregation.py -v
 
-# Cleanup
+# Test case management
+nmdc-osm-envo-test-cases.json: local/nmdc-envo-normalized.json
+	$(RUN_UV_PYTHON) -m src.utils.create_test_cases \
+		--select-best-worst $< \
+		--num-samples 5 \
+		--output $@
+
+# Cleanup targets
 clean:
 	rm -rf local/
+
+# Clean only derived files, preserving input data
+clean-derived:
+	# Remove files that can be recreated from scripts and inputs
+	rm -f local/oak_ridge_*.json
+	rm -f local/nmdc-latlon-*.json 
+	rm -f local/nmdc-osm-enriched*.json
+	rm -f local/nmdc-envo-normalized*.json
+	rm -f local/nmdc-ai-map-enriched.json
+	rm -f local/nmdc-llm-comparison.json
+	rm -f local/nmdc-comparison-summary.json
+	rm -f envo_lexical_index.yaml
+	
+# Clean test files but keep the main pipeline files
+clean-test:
+	rm -f local/nmdc-*-test*.json
+	rm -f local/oak_ridge_*.json
+	
+# Create a backup of important data files
+backup-data:
+	mkdir -p backup
+	cp local/nmdc-biosamples.json backup/
+	cp local/Biosample.yaml backup/
+	cp nmdc-osm-envo-test-cases.json backup/
 
 # Documentation of available map types
 # - hybrid: Combines satellite imagery with road labels
