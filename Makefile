@@ -53,7 +53,8 @@ local/nmdc-envo-normalized.json: src/biosample_envo_normalizer.py local/nmdc-osm
 		--output $@ \
 		--max-samples 130 \
 		--max-features 20 \
-		--confidence 0.7
+		--confidence 0.7 \
+		--biosample-index -1
 
 # Compare asserted vs inferred environmental values
 local/nmdc-comparison-summary.json local/nmdc-llm-comparison.json: src/biosample_llm_comparator.py local/nmdc-ai-map-enriched.json local/nmdc-envo-normalized.json

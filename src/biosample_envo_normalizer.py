@@ -1123,7 +1123,7 @@ async def process_biosample(agent: EnvoNormalizerAgent, biosample: Dict[str, Any
 @click.option('--confidence', type=float, default=0.7,
               help='Confidence threshold for accepting EnvO mappings (default: 0.7)')
 @click.option('--biosample-index', type=int, default=0,
-              help='Index of the specific biosample to process (default: 0)')
+              help='Index of the specific biosample to process (default: 0, use -1 to process all or max-samples)')
 @click.option('--debug', is_flag=True, default=False,
               help='Enable debug logging')
 def main_cli(input_path: str, output_path: str, max_samples: int,
@@ -1161,12 +1161,21 @@ async def main(input_path: str, output_path: str, max_samples: int,
     
     # Handle biosample selection
     if biosample_index >= 0 and biosample_index < len(biosamples):
+        # If a specific index is requested, just process that biosample
         logger.info(f"Selecting biosample at index {biosample_index}: {biosamples[biosample_index].get('id', 'unknown')}")
         biosamples = [biosamples[biosample_index]]
     elif biosample_index >= len(biosamples):
+        # Index out of range
         logger.warning(f"Biosample index {biosample_index} is out of range. Using first biosample.")
         biosamples = [biosamples[0]]
-    # Limit samples if specified and no specific index was requested
+    elif biosample_index < 0:
+        # Negative index means we should use max_samples if specified
+        if max_samples and max_samples < len(biosamples):
+            logger.info(f"Randomly selecting {max_samples} biosamples out of {len(biosamples)} total")
+            biosamples = random.sample(biosamples, max_samples)
+        else:
+            logger.info(f"Processing all {len(biosamples)} biosamples")
+    # This is the default case with biosample_index=0
     elif max_samples and max_samples < len(biosamples) and biosample_index == 0:
         logger.info(f"Randomly selecting {max_samples} biosamples out of {len(biosamples)} total")
         biosamples = random.sample(biosamples, max_samples)
