@@ -1,10 +1,59 @@
-.PHONY: all clean test
+.PHONY: all backup-data clean clean-derived clean-test \
+        elevation geo hello hello-world soil \
+        test test-agent test-feature-aggregation test-minimal test-soil \
+        weather wiki test-agent test-minimal test-soil test-feature-aggregation
 
 RUN_UV_PYTHON=uv run
 RUN_UV_PYTEST=uv run pytest
 
 # Default target
-all: local/oak_ridge_features.json local/nmdc-ai-map-enriched.json local/nmdc-osm-enriched.json local/nmdc-envo-normalized.json nmdc-osm-envo-test-cases.json
+all: \
+    local/oak_ridge_features.json local/nmdc-ai-map-enriched.json \
+    local/nmdc-envo-normalized.json local/nmdc-osm-enriched.json \
+    nmdc-osm-envo-test-cases.json \
+    hello hello-world elevation geo soil weather wiki \
+    test-agent test-minimal
+    # Run the agent-test entry point, corresponding to src/agent_test/__init__.py
+
+# Testing targets
+test: test-agent test-minimal test-soil test-feature-aggregation
+
+hello:
+	$(RUN_UV_PYTHON) agent-test
+
+# Run elevation info script directly
+elevation:
+	$(RUN_UV_PYTHON) src/agent_test/evelation_info.py
+
+# src/agent_test/geo_agent.py
+# Run the geo_agent.py script
+geo:
+	$(RUN_UV_PYTHON) src/agent_test/geo_agent.py
+
+# Run the hello_world.py script
+hello-world:
+	$(RUN_UV_PYTHON) src/agent_test/hello_world.py
+
+# src/agent_test/maptools.py -- no main to test
+
+# Run the soil_agent.py script
+soil:
+	$(RUN_UV_PYTHON) src/agent_test/soil_agent.py
+
+# Run the weather.at.py script
+weather:
+	$(RUN_UV_PYTHON) src/agent_test/weather.at.py
+
+# Run the wikipedia_animal_qa.py script
+wiki:
+	$(RUN_UV_PYTHON) src/agent_test/wikipedia_animal_qa.py
+
+# Run original agent tests
+test-agent:
+	$(RUN_UV_PYTEST) tests/test_agent.py -v
+
+test-minimal:
+	$(RUN_UV_PYTEST) tests/test_minimal_agent.py -v
 
 # Directory setup
 local/:
@@ -64,16 +113,6 @@ local/nmdc-comparison-summary.json local/nmdc-llm-comparison.json: src/biosample
 		--output local/nmdc-llm-comparison.json \
 		--summary-output local/nmdc-comparison-summary.json \
 		--max-samples 13
-
-# Testing targets
-.PHONY: test-agent test-minimal test-soil test-feature-aggregation
-test: test-agent test-minimal test-soil test-feature-aggregation
-
-test-agent:
-	$(RUN_UV_PYTEST) tests/test_agent.py -v
-
-test-minimal:
-	$(RUN_UV_PYTEST) tests/test_minimal_agent.py -v
 
 test-soil:
 	$(RUN_UV_PYTEST) tests/test_soil_agent.py -v

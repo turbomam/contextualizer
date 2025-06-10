@@ -37,7 +37,7 @@ def geojson_io_url(lat1, lon1, lat2, lon2):
     return url
 
 
-def get_coordinates_from_location(location_string):
+def get_coordinates_from_location(location_string, sleep_secs=2, try_stripping_nation=True):
     if not location_string:
         return None, None
     if location_string in latlon_cache:
@@ -46,6 +46,20 @@ def get_coordinates_from_location(location_string):
     try:
         loc = geo.geocode(location_string)
         if loc is None:
+            # Try stripping everything up to the first colon if enabled and location contains ":"
+            if try_stripping_nation and ":" in location_string:
+                colon_index = location_string.find(":")
+                stripped_location = location_string[colon_index + 1:].strip()
+                logger.info(f"Retrying without prefix: '{location_string}' -> '{stripped_location}'")
+                loc = geo.geocode(stripped_location)
+                if loc is not None:
+                    logger.info(
+                        f"Found coordinates for stripped location '{stripped_location}': {loc.latitude}, {loc.longitude}"
+                    )
+                    latlon_cache[location_string] = (loc.latitude, loc.longitude)
+                    time.sleep(sleep_secs)
+                    return loc.latitude, loc.longitude
+            
             logger.warning(f"Could not geocode location: '{location_string}'")
             latlon_cache[location_string] = (None, None)
             return None, None
@@ -53,7 +67,7 @@ def get_coordinates_from_location(location_string):
             f"Found coordinates for '{location_string}': {loc.latitude}, {loc.longitude}"
         )
         latlon_cache[location_string] = (loc.latitude, loc.longitude)
-        time.sleep(0.5)
+        time.sleep(sleep_secs)
         return loc.latitude, loc.longitude
     except Exception as e:
         logger.error(f"Error geocoding location '{location_string}': {e}")

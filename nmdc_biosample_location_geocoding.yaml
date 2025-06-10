@@ -1,0 +1,2050 @@
+'Arctic Ocean: Hook Island':
+  count: 4
+  latitude: -20.1189023
+  longitude: 148.9134288
+  status: success
+'Arctic Ocean: Luigi island':
+  count: 4
+  latitude: 80.7955118
+  longitude: 54.8999691
+  status: success
+'Australia: New South Wales, Botany Bay, Bare Island':
+  count: 6
+  latitude: -33.9920391
+  longitude: 151.2312215
+  status: success
+'Australia: Queensland, Great Barrier Reef, Davies Reef':
+  count: 51
+  latitude: null
+  longitude: null
+  status: failed
+'Australia: South Pacific Ocean, New South Wales':
+  count: 34
+  latitude: null
+  longitude: null
+  status: failed
+'Australia: Victoria , Melbourne':
+  count: 28
+  latitude: -37.8142454
+  longitude: 144.9631732
+  status: success
+'Australia: Western Australia, Two Peoples Bay Nature Reserve':
+  count: 3
+  latitude: -34.9871658
+  longitude: 118.16462
+  status: success
+'Bahamas: Northwest Atlantic Ocean':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'Belize: Caribbean Sea':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'Brazil: Macapa':
+  count: 3
+  latitude: 0.0401529
+  longitude: -51.0569588
+  status: success
+'Brazil: Obidos':
+  count: 2
+  latitude: -1.901072
+  longitude: -55.520812
+  status: success
+'Brazil: Santarem':
+  count: 3
+  latitude: -2.438489
+  longitude: -54.699611
+  status: success
+'Cameroon: Lobeke National Park':
+  count: 1
+  latitude: 2.3041955
+  longitude: 15.8658669
+  status: success
+'Canada: British Columbia':
+  count: 3
+  latitude: 55.001251
+  longitude: -125.002441
+  status: success
+'Canada: Nova Scotia, Bay of Fundy':
+  count: 4
+  latitude: 44.8512466
+  longitude: -66.1977817
+  status: success
+'Canada: Tsiigehtchic, Northwest Territories':
+  count: 3
+  latitude: 67.4420369
+  longitude: -133.742319
+  status: success
+'Canada: Winnipeg, Manitoba':
+  count: 1
+  latitude: 49.8844723
+  longitude: -97.1468149
+  status: success
+'Congo: Brazzaville':
+  count: 11
+  latitude: -0.7264327
+  longitude: 15.6419155
+  status: success
+'Congo: Epena':
+  count: 1
+  latitude: 0.8727377
+  longitude: 17.1913954
+  status: success
+'Congo: Likouala':
+  count: 1
+  latitude: 1.6788828
+  longitude: 17.4747723
+  status: success
+'Congo: Moembe':
+  count: 1
+  latitude: -2.9146722
+  longitude: 15.6305651
+  status: success
+'Congo: Oyo':
+  count: 1
+  latitude: -1.1603788
+  longitude: 15.9735205
+  status: success
+'Costa Rica: Carara National Park':
+  count: 12
+  latitude: 9.7900999
+  longitude: -84.5709133
+  status: success
+'Costa Rica: Puerto Viejo, La Selva Biological Station':
+  count: 16
+  latitude: 10.4246602
+  longitude: -84.0064343
+  status: success
+'DEU: Brandenburg':
+  count: 3
+  latitude: 52.8455492
+  longitude: 13.2461296
+  status: success
+'Germany: Brandenburg':
+  count: 1
+  latitude: 52.8455492
+  longitude: 13.2461296
+  status: success
+'Germany: Nordrhein-Westfalen, Cologne':
+  count: 28
+  latitude: 50.938361
+  longitude: 6.959974
+  status: success
+'Germany: Nordrhein-Westfalen, Julich':
+  count: 28
+  latitude: 50.9220931
+  longitude: 6.3611015
+  status: success
+'Honduras: Lago de Yojoa':
+  count: 13
+  latitude: 14.8662786
+  longitude: -87.9767044
+  status: success
+'ISR: Golan Heights':
+  count: 1
+  latitude: 33.0408017
+  longitude: 35.7392885
+  status: success
+'Israel: Gesher Arik, Golan Heights':
+  count: 1
+  latitude: null
+  longitude: null
+  status: failed
+'Israel: Golan Heights':
+  count: 5
+  latitude: 33.0408017
+  longitude: 35.7392885
+  status: success
+'Italy: San Benigno Canavese, Piedmont':
+  count: 2
+  latitude: 45.227052
+  longitude: 7.785021
+  status: success
+'KOR: Busan':
+  count: 3
+  latitude: 35.1799528
+  longitude: 129.0752365
+  status: success
+'Malawi: Zomba':
+  count: 6
+  latitude: -15.3863208
+  longitude: 35.3268273
+  status: success
+'Malaysia: Maliau Basin Conservation Area':
+  count: 3
+  latitude: null
+  longitude: null
+  status: failed
+'Mexico: Baja California Sur, Guerrero Negro':
+  count: 1
+  latitude: 27.9709506
+  longitude: -114.036389
+  status: success
+'Mexico: Caribbean Sea, Quintana Roo':
+  count: 3
+  latitude: null
+  longitude: null
+  status: failed
+'Mexico: Coahuila de Zaragoza, Cuatro Cienegas Basin, Rio Mesquites':
+  count: 1
+  latitude: null
+  longitude: null
+  status: failed
+'Mexico: Coahuila, Cuatro Cienegas Basin':
+  count: 1
+  latitude: null
+  longitude: null
+  status: failed
+'Mexico: North Pacific Ocean':
+  count: 8
+  latitude: null
+  longitude: null
+  status: failed
+Mongolia:
+  count: 12
+  latitude: 46.8250388
+  longitude: 103.8499736
+  status: success
+'NOR: Luster Municipality':
+  count: 4
+  latitude: 43.4651517
+  longitude: -80.5218689
+  status: success
+Namibia:
+  count: 19
+  latitude: -23.2335499
+  longitude: 17.3231107
+  status: success
+'Nepal: Mustang Region':
+  count: 14
+  latitude: 29.2041398
+  longitude: 83.7964807
+  status: success
+Northeast Atlantic Ocean:
+  count: 2
+  latitude: -3.72122
+  longitude: -38.5108114
+  status: success
+'Northeast Atlantic Ocean: Iberian Abyssal Plain':
+  count: 20
+  latitude: null
+  longitude: null
+  status: failed
+'Northeast Pacific Ocean: Guatemala Basin':
+  count: 7
+  latitude: null
+  longitude: null
+  status: failed
+'Northern Mariana Islands: Northwest Pacific Ocean':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'Palau: Philippine Sea, Koror':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'Panama: Gulf of Panama, Saboga':
+  count: 7
+  latitude: null
+  longitude: null
+  status: failed
+'Peru: Puca Glacier':
+  count: 12
+  latitude: null
+  longitude: null
+  status: failed
+'Puerto Rico: Adjuntas, Adjuntas':
+  count: 1
+  latitude: 18.1625596
+  longitude: -66.7231363
+  status: success
+'Puerto Rico: Naguabo, Naguabo':
+  count: 1
+  latitude: 18.2114755
+  longitude: -65.7362104
+  status: success
+'Puerto Rico: Rio Grande':
+  count: 105
+  latitude: 18.3474409
+  longitude: -65.8163814
+  status: success
+'Republic of Kiribati: Northern Line Islands, Palmyra Atoll':
+  count: 8
+  latitude: null
+  longitude: null
+  status: failed
+'Republic of Kiribati: Starbuck Island':
+  count: 4
+  latitude: -5.6430789
+  longitude: -155.8735282
+  status: success
+'Russia: Franz Josef Land, Luigi island':
+  count: 1
+  latitude: null
+  longitude: null
+  status: failed
+'Russia: Krasnoyarsk Krai':
+  count: 2
+  latitude: 63.3233807
+  longitude: 97.0979974
+  status: success
+'Russia: Sakha Republic':
+  count: 4
+  latitude: 66.941626
+  longitude: 129.642371
+  status: success
+'Russia: Yamalo-Nenets Autonomous Okrug':
+  count: 3
+  latitude: 67.1471631
+  longitude: 74.3415488
+  status: success
+Santa Barbara, CA, United States:
+  count: 1
+  latitude: 34.4221319
+  longitude: -119.702667
+  status: success
+Singapore:
+  count: 11
+  latitude: 1.357107
+  longitude: 103.8194992
+  status: success
+'Singapore: Bukit Timah Nature Reserve':
+  count: 3
+  latitude: 1.3540779
+  longitude: 103.7794401
+  status: success
+'Singapore: West Coast Park':
+  count: 3
+  latitude: 1.2883533
+  longitude: 103.7732812
+  status: success
+'Spain: Province of Huelva, Reserva de la Biosfera y Paraje Natural de las Marismas del Odiel':
+  count: 23
+  latitude: null
+  longitude: null
+  status: failed
+'Spain: Province of Huelva:Reserva de la Biosfera y Paraje Natural de las Marismas del Odiel':
+  count: 1
+  latitude: null
+  longitude: null
+  status: failed
+'Thailand: Chiang Ma':
+  count: 1
+  latitude: 18.6951714
+  longitude: 98.4462684
+  status: success
+'Thailand: Chiang Rai':
+  count: 1
+  latitude: 19.9068867
+  longitude: 99.8332739
+  status: success
+'Thailand: Mae Hong Son':
+  count: 2
+  latitude: 19.3927456
+  longitude: 98.2031112
+  status: success
+'USA: AK, Denali':
+  count: 88
+  latitude: 63.069115
+  longitude: -151.006239
+  status: success
+'USA: AK, Fairbanks North Star':
+  count: 89
+  latitude: 64.8649039
+  longitude: -146.7751619
+  status: success
+'USA: AK, North Slope':
+  count: 85
+  latitude: 69.5335129
+  longitude: -153.8220681
+  status: success
+'USA: AK, Southeast Fairbanks':
+  count: 4
+  latitude: 63.9412119
+  longitude: -143.7303712
+  status: success
+'USA: AL, Baldwin County':
+  count: 1
+  latitude: 30.5677527
+  longitude: -87.7324392
+  status: success
+'USA: AL, Bibb':
+  count: 6
+  latitude: 32.971079
+  longitude: -87.1227088
+  status: success
+'USA: AL, Choctaw':
+  count: 8
+  latitude: 31.9908095
+  longitude: -88.2821326
+  status: success
+'USA: AL, Greene':
+  count: 5
+  latitude: 32.8620514
+  longitude: -87.9915392
+  status: success
+'USA: AL, Weeks Bay':
+  count: 1
+  latitude: 30.3952571
+  longitude: -87.8320161
+  status: success
+'USA: AZ, Pima':
+  count: 4
+  latitude: 32.1112624
+  longitude: -111.6546163
+  status: success
+'USA: Aiken, South Carolina':
+  count: 1
+  latitude: 33.5733017
+  longitude: -81.7680515
+  status: success
+'USA: Alabama':
+  count: 13
+  latitude: 33.2588817
+  longitude: -86.8295337
+  status: success
+'USA: Alabama, Black Warrior River':
+  count: 5
+  latitude: 33.0230188
+  longitude: -87.6316267
+  status: success
+'USA: Alabama, Dead Lake':
+  count: 61
+  latitude: 30.8887396
+  longitude: -87.9914339
+  status: success
+'USA: Alabama, Lenoir Landing':
+  count: 62
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Alabama, Lower Tombigbee River':
+  count: 4
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Alabama, Mayfield Creek':
+  count: 44
+  latitude: 32.9550101
+  longitude: -87.4082325
+  status: success
+'USA: Alabama, Talladega National Forest':
+  count: 173
+  latitude: 32.9349471
+  longitude: -87.3948069
+  status: success
+'USA: Alabama, Talledega National Forest':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Alaska':
+  count: 17
+  latitude: 64.4459613
+  longitude: -149.680909
+  status: success
+'USA: Alaska, Caribou Creek':
+  count: 27
+  latitude: 61.8343419
+  longitude: -147.6611048
+  status: success
+'USA: Alaska, Caribou-Poker Creeks Research Watershed':
+  count: 129
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Alaska, Coldfoot':
+  count: 38
+  latitude: 67.234505
+  longitude: -150.0594836
+  status: success
+'USA: Alaska, Delta Junction':
+  count: 117
+  latitude: 64.0373478
+  longitude: -145.732157
+  status: success
+'USA: Alaska, Denali':
+  count: 6
+  latitude: 63.069115
+  longitude: -151.006239
+  status: success
+'USA: Alaska, Fairbanks':
+  count: 33
+  latitude: 64.837845
+  longitude: -147.716675
+  status: success
+'USA: Alaska, Franklin Bluff':
+  count: 12
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Alaska, Healy':
+  count: 118
+  latitude: 63.950262
+  longitude: -149.0258707
+  status: success
+'USA: Alaska, Oksrukuyik Creek':
+  count: 31
+  latitude: 68.723141
+  longitude: -149.0165966
+  status: success
+'USA: Alaska, Seymour Canal':
+  count: 3
+  latitude: 57.5333333
+  longitude: -133.8333333
+  status: success
+'USA: Alaska, Sitka Sound':
+  count: 1
+  latitude: 56.9727778
+  longitude: -135.4908333
+  status: success
+'USA: Alaska, Toolik':
+  count: 36
+  latitude: 68.632582
+  longitude: -149.6073465
+  status: success
+'USA: Alaska, Toolik Field Station':
+  count: 136
+  latitude: 68.6276503
+  longitude: -149.5942706
+  status: success
+'USA: Alaska, Toolik Lake':
+  count: 20
+  latitude: 68.632582
+  longitude: -149.6073465
+  status: success
+"USA: Alaska, Utqia\u0121vik":
+  count: 27
+  latitude: 71.2905366
+  longitude: -156.78844
+  status: success
+'USA: Albuquerque, New Mexico':
+  count: 1
+  latitude: 35.0866327
+  longitude: -106.6202094
+  status: success
+'USA: Alvord, Texas':
+  count: 1
+  latitude: 33.3541879
+  longitude: -97.6944884
+  status: success
+'USA: Arizona':
+  count: 6
+  latitude: 34.395342
+  longitude: -111.763275
+  status: success
+'USA: Arizona, Santa Rita Experimental Range':
+  count: 112
+  latitude: 31.8334182
+  longitude: -110.8528643
+  status: success
+'USA: Arizona, Sycamore Creek':
+  count: 20
+  latitude: 33.7482705
+  longitude: -111.5121966
+  status: success
+'USA: Athens, Georgia':
+  count: 1
+  latitude: 33.9418919
+  longitude: -83.4500546
+  status: success
+'USA: Austin, Texas':
+  count: 2
+  latitude: 30.1666085
+  longitude: -97.789011
+  status: success
+'USA: Avondale, Pennsylvania':
+  count: 2
+  latitude: 32.0523486
+  longitude: -81.0635201
+  status: success
+'USA: Benson, Utah':
+  count: 1
+  latitude: 45.3160042
+  longitude: -95.6023298
+  status: success
+'USA: Benton City, Washington':
+  count: 1
+  latitude: 46.2631897
+  longitude: -119.487802
+  status: success
+'USA: Blacksburg, Virginia':
+  count: 1
+  latitude: 37.2219268
+  longitude: -80.4272818
+  status: success
+'USA: Blue River, Oregon':
+  count: 1
+  latitude: 44.1538852
+  longitude: -122.3387709
+  status: success
+'USA: Boise, Idaho':
+  count: 1
+  latitude: 43.6177695
+  longitude: -116.1996904
+  status: success
+'USA: Burlington, Massachusetts':
+  count: 2
+  latitude: 39.9140489
+  longitude: -74.5619433
+  status: success
+'USA: CA, Fresno':
+  count: 5
+  latitude: 36.7394421
+  longitude: -119.78483
+  status: success
+'USA: CA, Madera':
+  count: 6
+  latitude: 37.1716264
+  longitude: -119.7737991
+  status: success
+'USA: CA, San Diego':
+  count: 16
+  latitude: 32.7174202
+  longitude: -117.162772
+  status: success
+'USA: CO, Boulder':
+  count: 6
+  latitude: 40.0149856
+  longitude: -105.270545
+  status: success
+'USA: CO, Logan':
+  count: 6
+  latitude: 40.7250975
+  longitude: -103.1221379
+  status: success
+'USA: CO, Weld':
+  count: 6
+  latitude: 40.5632344
+  longitude: -104.4835287
+  status: success
+'USA: California':
+  count: 129
+  latitude: 36.7014631
+  longitude: -118.755997
+  status: success
+'USA: California , Lower Teakettle':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: California, Anza Borrego Desert State Park':
+  count: 2
+  latitude: 33.0955354
+  longitude: -116.3018977
+  status: success
+'USA: California, Berkeley':
+  count: 127
+  latitude: 37.8708393
+  longitude: -122.272863
+  status: success
+'USA: California, Davis':
+  count: 183
+  latitude: 38.5435526
+  longitude: -121.739005
+  status: success
+'USA: California, Kendall-Frost Mission Bay Marsh Reserve':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: California, La Jolla Cove':
+  count: 2
+  latitude: 32.850501
+  longitude: -117.2730372
+  status: success
+'USA: California, Lower Teakettle':
+  count: 18
+  latitude: null
+  longitude: null
+  status: failed
+'USA: California, San Joaquin Experimental Range':
+  count: 118
+  latitude: 37.1027423
+  longitude: -119.7331623
+  status: success
+'USA: California, Santa Catalina Island':
+  count: 3
+  latitude: 33.3889037
+  longitude: -118.4239288
+  status: success
+'USA: California, Scripps Coastal Reserve':
+  count: 4
+  latitude: 32.8670532
+  longitude: -117.2541464
+  status: success
+'USA: California, Soaproot Saddle':
+  count: 28
+  latitude: 37.0279271
+  longitude: -119.254571
+  status: success
+'USA: California, Teakettle Creek - Watershed 2':
+  count: 3
+  latitude: null
+  longitude: null
+  status: failed
+'USA: California, Upper Big Creek':
+  count: 16
+  latitude: null
+  longitude: null
+  status: failed
+'USA: California: Angelo Coastal Reserve':
+  count: 60
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Cincinnati, Ohio':
+  count: 1
+  latitude: 39.08309
+  longitude: -84.3717683
+  status: success
+'USA: Colorado':
+  count: 65
+  latitude: 38.7251776
+  longitude: -105.607716
+  status: success
+'USA: Colorado, Arikaree River':
+  count: 49
+  latitude: 39.8310178
+  longitude: -102.2790494
+  status: success
+'USA: Colorado, Boulder':
+  count: 15
+  latitude: 40.0149856
+  longitude: -105.270545
+  status: success
+'USA: Colorado, Central Plains Experimental Range':
+  count: 204
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Colorado, Como Creek':
+  count: 34
+  latitude: 38.5218791
+  longitude: -106.2448435
+  status: success
+'USA: Colorado, Niwot Ridge':
+  count: 156
+  latitude: 40.0564693
+  longitude: -105.6308551
+  status: success
+'USA: Colorado, North Sterling':
+  count: 105
+  latitude: 40.7732324
+  longitude: -103.2887026
+  status: success
+'USA: Colorado, Rocky Mountain National Park':
+  count: 2
+  latitude: 40.3553915
+  longitude: -105.7176957
+  status: success
+'USA: Colorado, Rocky Mountains':
+  count: 56
+  latitude: 39.7271888
+  longitude: -104.9991566
+  status: success
+'USA: Colorado, San Juan County, Animas River':
+  count: 10
+  latitude: 37.7313232
+  longitude: -107.659357
+  status: success
+'USA: Colorado, Ute Mountain':
+  count: 2
+  latitude: 37.2841604
+  longitude: -108.778711
+  status: success
+'USA: Colorado, West St Louis Creek':
+  count: 28
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Columbia River, Washington':
+  count: 85
+  latitude: 45.5901679
+  longitude: -122.503438
+  status: success
+'USA: Connerville, Oklahoma':
+  count: 1
+  latitude: 34.4475921
+  longitude: -96.6361153
+  status: success
+'USA: Cordesville, South Carolina':
+  count: 1
+  latitude: 33.1321144
+  longitude: -79.8834131
+  status: success
+'USA: Crested Butte, Colorado':
+  count: 1
+  latitude: 38.8684666
+  longitude: -106.9812372
+  status: success
+'USA: Cross Plains, Wisconsin':
+  count: 1
+  latitude: 43.1116968
+  longitude: -89.6452197
+  status: success
+'USA: Edgewater, Maryland':
+  count: 1
+  latitude: 38.943562
+  longitude: -76.5672549
+  status: success
+'USA: Elkton, Oregon':
+  count: 1
+  latitude: 43.6370577
+  longitude: -123.567384
+  status: success
+'USA: FL, Eglin Air Force Base':
+  count: 1
+  latitude: 30.5776961
+  longitude: -86.5139603
+  status: success
+'USA: FL, Osceola':
+  count: 6
+  latitude: 28.0443842
+  longitude: -81.1437541
+  status: success
+'USA: FL, Putnam':
+  count: 6
+  latitude: 29.6266155
+  longitude: -81.7230549
+  status: success
+'USA: Fairbanks, Alaska':
+  count: 1
+  latitude: 64.8653408
+  longitude: -147.8426097
+  status: success
+'USA: Fisher, Illinois':
+  count: 1
+  latitude: 40.3147555
+  longitude: -88.3500541
+  status: success
+'USA: Flamingo, Florida':
+  count: 1
+  latitude: 25.1419409
+  longitude: -80.9227989
+  status: success
+'USA: Florida':
+  count: 4
+  latitude: 27.7567667
+  longitude: -81.4639835
+  status: success
+'USA: Florida, Disney Wilderness Preserve':
+  count: 94
+  latitude: 28.087033
+  longitude: -81.4031241
+  status: success
+'USA: Florida, Lake Barco':
+  count: 6
+  latitude: 29.6763616
+  longitude: -82.0083659
+  status: success
+'USA: Florida, Lake Suggs':
+  count: 11
+  latitude: 29.6876426
+  longitude: -82.0177884
+  status: success
+'USA: Florida, Ordway Swisher Biological Station':
+  count: 2
+  latitude: 29.7025773
+  longitude: -81.9834412
+  status: success
+'USA: Florida, Ordway-Swisher Biological Station':
+  count: 156
+  latitude: 29.7025773
+  longitude: -81.9834412
+  status: success
+'USA: Florida, South Florida Museum':
+  count: 2
+  latitude: 27.4982631
+  longitude: -82.5715558
+  status: success
+'USA: Fraser, Colorado':
+  count: 1
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Ft. Bragg, California':
+  count: 1
+  latitude: 39.4405108
+  longitude: -123.7839873
+  status: success
+'USA: Georgia':
+  count: 10
+  latitude: 32.3293809
+  longitude: -83.1137366
+  status: success
+'USA: Georgia, Atlanta Zoo':
+  count: 27
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Georgia, Flint River':
+  count: 4
+  latitude: 32.2294649
+  longitude: -84.0579419
+  status: success
+'USA: Georgia, The Jones Center At Ichauway':
+  count: 98
+  latitude: 31.2408992
+  longitude: -84.4775134
+  status: success
+'USA: Gunnison, Colorado':
+  count: 2
+  latitude: 38.5503302
+  longitude: -106.9191659
+  status: success
+'USA: Hawaii, Kilauea Volcano':
+  count: 21
+  latitude: 19.4138647
+  longitude: -155.275811
+  status: success
+'USA: Hawaii, Puu Makaala Natural Area Reserve':
+  count: 86
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Idaho':
+  count: 6
+  latitude: 43.6447642
+  longitude: -114.015407
+  status: success
+'USA: Idaho City, Idaho':
+  count: 1
+  latitude: 43.6177695
+  longitude: -116.1996904
+  status: success
+'USA: Idaho, Orchard Combat Training Center: 1983 OCTC Fire Burned':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Idaho, Orchard Combat Training Center: 1983 OCTC Fire-Unburned':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Idalia, Colorado':
+  count: 1
+  latitude: 39.7038813
+  longitude: -102.2938052
+  status: success
+'USA: Illinois':
+  count: 18
+  latitude: 40.0796606
+  longitude: -89.4337288
+  status: success
+'USA: Indiana':
+  count: 8
+  latitude: 40.3270127
+  longitude: -86.1746933
+  status: success
+'USA: Iowa':
+  count: 11
+  latitude: 41.9216734
+  longitude: -93.3122705
+  status: success
+'USA: Iowa, Ames':
+  count: 696
+  latitude: 42.0267567
+  longitude: -93.6170448
+  status: success
+'USA: Iowa, Relay Cover Crop':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Iowa, Relay No Cover':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: KS, Riley':
+  count: 12
+  latitude: 39.3026347
+  longitude: -96.7709339
+  status: success
+'USA: Kansas':
+  count: 8
+  latitude: 38.27312
+  longitude: -98.5821872
+  status: success
+'USA: Kansas, KU Field Station':
+  count: 90
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Kansas, Kings Creek':
+  count: 37
+  latitude: 39.1173433
+  longitude: -96.6138904
+  status: success
+'USA: Kansas, Konza Prairie Agroecosystem':
+  count: 53
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Kansas, Konza Prairie Biological Station':
+  count: 155
+  latitude: 39.1002012
+  longitude: -96.576798
+  status: success
+'USA: Kansas, McDiffett Creek':
+  count: 24
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Kansas, University of Kansas Field Station':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Kentucky':
+  count: 3
+  latitude: 37.5726028
+  longitude: -85.1551411
+  status: success
+'USA: Lake Mendota, Wisconsin':
+  count: 40
+  latitude: 43.1378596
+  longitude: -89.3946927
+  status: success
+'USA: Logan, Utah':
+  count: 2
+  latitude: 41.7526959
+  longitude: -111.808733
+  status: success
+'USA: Los Alamos, NewMexico':
+  count: 1
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Louisiana':
+  count: 14
+  latitude: 30.8703881
+  longitude: -92.007126
+  status: success
+'USA: MA, Harvard Forest':
+  count: 3
+  latitude: 42.5366748
+  longitude: -72.1810985
+  status: success
+'USA: MA, Worcester':
+  count: 4
+  latitude: 42.2625621
+  longitude: -71.8018877
+  status: success
+'USA: MD, Anne Arundel':
+  count: 6
+  latitude: 38.9722583
+  longitude: -76.573454
+  status: success
+'USA: MI, Gogebic':
+  count: 6
+  latitude: 46.403433
+  longitude: -89.6626791
+  status: success
+'USA: Maryland':
+  count: 10
+  latitude: 39.5162401
+  longitude: -76.9382069
+  status: success
+'USA: Maryland, National Zoo':
+  count: 25
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Maryland, Northwest Baltimore Base of Slope Adelphi':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Maryland, Northwest Baltimore Mid Slope Adelphi':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Maryland, Northwest Baltimore Top of Slope Adelph':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Maryland, Smithsonian Environmental Research Center':
+  count: 32
+  latitude: 38.8793738
+  longitude: -76.5577299
+  status: success
+'USA: Maryland, Winters Lane Lower Soil Pit':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Maryland, Winters Lane Upper Soil Pit':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Massachusettes':
+  count: 3
+  latitude: 41.1584053
+  longitude: -80.7184304
+  status: success
+'USA: Massachusetts':
+  count: 5
+  latitude: 42.3788774
+  longitude: -72.032366
+  status: success
+'USA: Massachusetts, D01 HARV Plot HARV_07':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Massachusetts, Hampden County':
+  count: 6
+  latitude: 42.1285315
+  longitude: -72.6063441
+  status: success
+'USA: Massachusetts, Harvard Forest & Quabbin Watershed':
+  count: 192
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Massachusetts, Lower Hop Brook':
+  count: 30
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Massachusetts, Massachusetts Bay':
+  count: 8
+  latitude: 42.3750987
+  longitude: -70.7494879
+  status: success
+'USA: Massachusetts, Norfolk County':
+  count: 8
+  latitude: 42.1538607
+  longitude: -71.1828015
+  status: success
+'USA: Massachusetts, Oak Pine Forest':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Massachusetts, Petersham':
+  count: 42
+  latitude: 42.4883041
+  longitude: -72.1866162
+  status: success
+'USA: Massachusetts, Peterson Farm':
+  count: 2
+  latitude: 41.5531322
+  longitude: -70.6386257
+  status: success
+'USA: Massachusetts, Plum Island':
+  count: 7
+  latitude: 42.758979
+  longitude: -70.8017548
+  status: success
+'USA: Massachusetts, Town of Ludlow':
+  count: 6
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Mesa, Arizona':
+  count: 1
+  latitude: 33.4127579
+  longitude: -111.8196718
+  status: success
+'USA: Michigan':
+  count: 14
+  latitude: 43.6211955
+  longitude: -84.6824346
+  status: success
+'USA: Michigan, Delton':
+  count: 1176
+  latitude: 42.4997581
+  longitude: -85.4080641
+  status: success
+'USA: Michigan, Escanaba':
+  count: 216
+  latitude: 45.7455707
+  longitude: -87.0647434
+  status: success
+'USA: Michigan, Houghton':
+  count: 24
+  latitude: 46.8591287
+  longitude: -88.7774734
+  status: success
+'USA: Michigan, Kellogg Biological Station':
+  count: 192
+  latitude: 42.4118364
+  longitude: -85.3877345
+  status: success
+'USA: Michigan, Lake City':
+  count: 744
+  latitude: 44.335287
+  longitude: -85.215046
+  status: success
+'USA: Michigan, University of Notre Dame Environmental Research Center':
+  count: 161
+  latitude: 46.232455
+  longitude: -89.5204851
+  status: success
+'USA: Middleton, Wisconsin':
+  count: 1
+  latitude: 43.0893229
+  longitude: -89.5293598
+  status: success
+'USA: Minnesota, Marcel Experimental Forest, Spruce and Peatland Responses to Environmental Changes':
+  count: 100
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Mississippi':
+  count: 3
+  latitude: 32.9715285
+  longitude: -89.7348497
+  status: success
+'USA: Missouri':
+  count: 3
+  latitude: 38.7604815
+  longitude: -92.5617875
+  status: success
+'USA: ND, Morton':
+  count: 6
+  latitude: 46.7244733
+  longitude: -101.1644543
+  status: success
+'USA: ND, Stutsman':
+  count: 12
+  latitude: 46.9596318
+  longitude: -98.9742609
+  status: success
+'USA: NH, Carroll':
+  count: 4
+  latitude: 43.8778199
+  longitude: -71.2740836
+  status: success
+'USA: NM, Dona Ana':
+  count: 6
+  latitude: 32.32817
+  longitude: -106.849423
+  status: success
+'USA: Nebraska':
+  count: 7
+  latitude: 41.7370229
+  longitude: -99.5873816
+  status: success
+'USA: Nederland, Colorado':
+  count: 1
+  latitude: 39.9613759
+  longitude: -105.510831
+  status: success
+'USA: New Hampshire, Bartlett Experimental Forest':
+  count: 45
+  latitude: 44.060006
+  longitude: -71.2978166
+  status: success
+'USA: New Hartford, Connecticut':
+  count: 1
+  latitude: 41.8783741
+  longitude: -72.9808857
+  status: success
+'USA: New Kent, Virginia':
+  count: 1
+  latitude: 37.4974701
+  longitude: -76.9990453
+  status: success
+'USA: New Mexico':
+  count: 6
+  latitude: 34.5802074
+  longitude: -105.996047
+  status: success
+'USA: New Mexico, Algodones':
+  count: 1
+  latitude: 35.3806512
+  longitude: -106.4792491
+  status: success
+'USA: New Mexico, Bloomfield':
+  count: 2
+  latitude: 36.7111165
+  longitude: -107.984511
+  status: success
+'USA: New Mexico, Cuba':
+  count: 1
+  latitude: 36.0199355
+  longitude: -106.9513567
+  status: success
+'USA: New Mexico, Jornada Experimental Range':
+  count: 29
+  latitude: 32.2804637
+  longitude: -106.7570046
+  status: success
+'USA: New Mexico, Los Alamos':
+  count: 36
+  latitude: 35.88137
+  longitude: -106.298959
+  status: success
+'USA: New Salem, Massachusetts':
+  count: 1
+  latitude: 42.5035591
+  longitude: -72.3324849
+  status: success
+'USA: New York':
+  count: 11
+  latitude: 40.7127281
+  longitude: -74.0060152
+  status: success
+'USA: New York, Ithaca':
+  count: 9
+  latitude: 42.4374175
+  longitude: -76.5483724
+  status: success
+'USA: Newbury, Massachusetts':
+  count: 1
+  latitude: 42.7819388
+  longitude: -70.9232731
+  status: success
+'USA: Newton, Georgia':
+  count: 1
+  latitude: 33.5715512
+  longitude: -83.8446101
+  status: success
+'USA: North Carolina':
+  count: 64
+  latitude: 35.6729639
+  longitude: -79.0392919
+  status: success
+'USA: North Carolina, Chapel Hill':
+  count: 28
+  latitude: 35.9131542
+  longitude: -79.05578
+  status: success
+'USA: North Carolina, Organic legume disk tillage':
+  count: 4
+  latitude: null
+  longitude: null
+  status: failed
+'USA: North Dakota, Chase Lake National Wildlife Refuge':
+  count: 150
+  latitude: 47.0073926
+  longitude: -99.4455091
+  status: success
+'USA: North Dakota, Dakota Coteau Field Site':
+  count: 32
+  latitude: null
+  longitude: null
+  status: failed
+'USA: North Dakota, Northern Great Plains Research Laboratory':
+  count: 26
+  latitude: null
+  longitude: null
+  status: failed
+'USA: North Dakota, Prairie Lake':
+  count: 10
+  latitude: 47.1597581
+  longitude: -99.1178403
+  status: success
+'USA: North Dakota, Prairie Pothole':
+  count: 10
+  latitude: 47.1296101
+  longitude: -99.2530647
+  status: success
+'USA: North East Pacific Ocean coastal waters of California':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: North East Pacific Ocean, California':
+  count: 7
+  latitude: null
+  longitude: null
+  status: failed
+'USA: North East Pacific Ocean, San Diego, California':
+  count: 1
+  latitude: null
+  longitude: null
+  status: failed
+'USA: North Slope Borough, Alaska':
+  count: 1
+  latitude: 70.2201616
+  longitude: -146.4943947
+  status: success
+'USA: North Woodstock, New Hampshire':
+  count: 1
+  latitude: 44.0313095
+  longitude: -71.6868203
+  status: success
+'USA: Northeast Pacific Ocean, San Diego, California':
+  count: 4
+  latitude: null
+  longitude: null
+  status: failed
+'USA: OK, Washita':
+  count: 4
+  latitude: 35.2917033
+  longitude: -98.9966972
+  status: success
+'USA: Oak Ridge, Tennessee':
+  count: 3
+  latitude: 35.9377555
+  longitude: -84.3940554
+  status: success
+'USA: Ohio':
+  count: 27
+  latitude: 40.2253569
+  longitude: -82.6881395
+  status: success
+'USA: Oklahoma':
+  count: 1
+  latitude: 34.9550817
+  longitude: -97.2684063
+  status: success
+'USA: Oklahoma, Blue River':
+  count: 29
+  latitude: 33.9704233
+  longitude: -96.1987438
+  status: success
+'USA: Oklahoma, Marvin Klemme Range Research Station':
+  count: 80
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Oregon':
+  count: 425
+  latitude: 43.9792797
+  longitude: -120.737257
+  status: success
+'USA: Oregon, Benton County':
+  count: 4
+  latitude: 44.494937
+  longitude: -123.4065679
+  status: success
+'USA: Oregon, Boardman':
+  count: 64
+  latitude: 45.839855
+  longitude: -119.700583
+  status: success
+'USA: Oregon, Clatskanie':
+  count: 1
+  latitude: 46.1036879
+  longitude: -123.2048168
+  status: success
+'USA: Oregon, Coos County':
+  count: 1
+  latitude: 43.2184144
+  longitude: -124.109621
+  status: success
+'USA: Oregon, Crook County':
+  count: 1
+  latitude: 44.1460291
+  longitude: -120.3839476
+  status: success
+'USA: Oregon, Deschutes County':
+  count: 1
+  latitude: 43.8194838
+  longitude: -121.1669662
+  status: success
+'USA: Oregon, Grant County':
+  count: 1
+  latitude: 44.464824
+  longitude: -119.0565278
+  status: success
+'USA: Oregon, Harney County':
+  count: 1
+  latitude: 43.055195
+  longitude: -119.0240263
+  status: success
+'USA: Oregon, Jackson County':
+  count: 1
+  latitude: 42.398015
+  longitude: -122.7540948
+  status: success
+'USA: Oregon, Josephine County':
+  count: 1
+  latitude: 42.3554368
+  longitude: -123.5602707
+  status: success
+'USA: Oregon, Klamath County':
+  count: 2
+  latitude: 42.6052565
+  longitude: -121.739544
+  status: success
+'USA: Oregon, Lane County':
+  count: 6
+  latitude: 43.9314567
+  longitude: -122.8575849
+  status: success
+'USA: Oregon, Lincoln County':
+  count: 1
+  latitude: 44.6201742
+  longitude: -123.9276915
+  status: success
+'USA: Oregon, Marion County':
+  count: 1
+  latitude: 44.8964425
+  longitude: -122.7203248
+  status: success
+'USA: Oregon, McRae Creek':
+  count: 18
+  latitude: 44.2505382
+  longitude: -122.1759844
+  status: success
+'USA: Oregon, Morrow County':
+  count: 1
+  latitude: 45.360901
+  longitude: -119.6052459
+  status: success
+'USA: Oregon, Sherman County':
+  count: 2
+  latitude: 45.3944268
+  longitude: -120.6963746
+  status: success
+'USA: Oregon, Tillamook County':
+  count: 7
+  latitude: 45.460293
+  longitude: -123.7266793
+  status: success
+'USA: Oregon, Umatilla County':
+  count: 2
+  latitude: 45.6416995
+  longitude: -118.7671122
+  status: success
+'USA: Oregon, Union County':
+  count: 1
+  latitude: 45.2680014
+  longitude: -118.0257466
+  status: success
+'USA: Oregon, Warm Springs':
+  count: 6
+  latitude: 44.7628855
+  longitude: -121.2595919
+  status: success
+'USA: Oyster, Virginia':
+  count: 1
+  latitude: 37.2860709
+  longitude: -75.9240284
+  status: success
+'USA: Pennsylvania':
+  count: 6
+  latitude: 40.9699889
+  longitude: -77.7278831
+  status: success
+'USA: Pennsylvania, Urban CZO':
+  count: 4
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Pennsylvania,Borough of Centralia':
+  count: 10
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Plum Island, Massachusetts':
+  count: 7
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Plum Island. Massachusetts,':
+  count: 2
+  latitude: 42.758979
+  longitude: -70.8017548
+  status: success
+'USA: Prineville, Oregon':
+  count: 2
+  latitude: 44.3075487
+  longitude: -120.8376828
+  status: success
+'USA: Puerto Rico':
+  count: 4
+  latitude: 18.2247706
+  longitude: -66.4858295
+  status: success
+'USA: Puerto Rico, Guanica Forest':
+  count: 137
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Puerto Rico, Lajas Experimental Station':
+  count: 57
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Puerto Rico, Rio Cupeyes':
+  count: 42
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Puerto Rico, Rio Yahuecas':
+  count: 27
+  latitude: 18.1742577
+  longitude: -66.7965934
+  status: success
+'USA: Pullman, Washington':
+  count: 2
+  latitude: 46.7304268
+  longitude: -117.173895
+  status: success
+'USA: Richland, Washington':
+  count: 4
+  latitude: 40.4710185
+  longitude: -83.85822
+  status: success
+'USA: Riverdale, Maryland':
+  count: 1
+  latitude: 38.9691931
+  longitude: -76.9159457
+  status: success
+'USA: Salt Lake City, Utah':
+  count: 2
+  latitude: 40.7628137
+  longitude: -111.8368719
+  status: success
+'USA: San Diego Bay, California':
+  count: 7
+  latitude: 32.6500534
+  longitude: -117.1341978
+  status: success
+'USA: Scripps Canyon, La Jolla, California':
+  count: 5
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Sierra National Forest, California':
+  count: 1
+  latitude: 37.2820648
+  longitude: -119.1499896
+  status: success
+'USA: Simsbury, Connecticut':
+  count: 1
+  latitude: 41.8714722
+  longitude: -72.8011856
+  status: success
+'USA: South Carolina':
+  count: 2
+  latitude: 33.6874388
+  longitude: -80.4363743
+  status: success
+'USA: South Valley, New Mexico':
+  count: 1
+  latitude: 35.0395432
+  longitude: -106.6477579
+  status: success
+'USA: Sparkling Lake, Wisconsin':
+  count: 46
+  latitude: 46.008639
+  longitude: -89.7003033
+  status: success
+'USA: Stabler, Washington':
+  count: 1
+  latitude: 45.8085977
+  longitude: -121.9076029
+  status: success
+'USA: Summerhaven, Arizona':
+  count: 1
+  latitude: 32.4447583
+  longitude: -110.7605798
+  status: success
+'USA: TN, Anderson':
+  count: 4
+  latitude: 36.1063226
+  longitude: -84.1849939
+  status: success
+'USA: TN, Sevier':
+  count: 2
+  latitude: 35.8047065
+  longitude: -83.5291901
+  status: success
+'USA: TX, Wise':
+  count: 6
+  latitude: 33.2139213
+  longitude: -97.6563925
+  status: success
+'USA: Tennessee':
+  count: 34
+  latitude: 35.7730076
+  longitude: -86.2820081
+  status: success
+'USA: Tennessee, Great Smoky Mountains National Park':
+  count: 62
+  latitude: 35.63422
+  longitude: -83.402366
+  status: success
+'USA: Tennessee, LeConte Creek':
+  count: 26
+  latitude: 35.707747
+  longitude: -83.5205215
+  status: success
+'USA: Tennessee, Oak Ridge':
+  count: 171
+  latitude: 36.0103562
+  longitude: -84.2696449
+  status: success
+'USA: Tennessee, Oak Ridge National Lab':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Tennessee, Walker Branch':
+  count: 24
+  latitude: 35.9523015
+  longitude: -84.2720111
+  status: success
+'USA: Texas':
+  count: 6
+  latitude: 31.2638905
+  longitude: -98.5456116
+  status: success
+'USA: Texas, Caddo Lyndon B Johnson National Grasslands':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Texas, Deaf Smith County':
+  count: 6
+  latitude: 34.9323974
+  longitude: -102.5983118
+  status: success
+'USA: Texas, Huntsville':
+  count: 2
+  latitude: 30.7235263
+  longitude: -95.5507771
+  status: success
+'USA: Texas, Lubbock County':
+  count: 1
+  latitude: 33.5831241
+  longitude: -101.818598
+  status: success
+'USA: Texas, Lyndon B. Johnson National Grassland':
+  count: 134
+  latitude: 33.36984
+  longitude: -97.593456
+  status: success
+'USA: Texas, Pringle Creek':
+  count: 29
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Toolik Field Station, Alaska':
+  count: 1
+  latitude: 68.6276503
+  longitude: -149.5942706
+  status: success
+'USA: Trout Bog Lake, Wisconsin':
+  count: 33
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Tyee, Oregon':
+  count: 1
+  latitude: 43.4434489
+  longitude: -123.5512015
+  status: success
+'USA: UT, San Juan':
+  count: 6
+  latitude: 37.5859438
+  longitude: -109.7852018
+  status: success
+'USA: UT, Tooele':
+  count: 4
+  latitude: 40.4062872
+  longitude: -113.1966394
+  status: success
+'USA: University of North Carolina':
+  count: 24
+  latitude: 35.9050353
+  longitude: -79.0477533
+  status: success
+'USA: University of North Carolina, Chapel Hill':
+  count: 1
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Utah':
+  count: 3
+  latitude: 39.4225192
+  longitude: -111.714358
+  status: success
+'USA: Utah, 22UT012 - High Elevation Rock Mountain UT - LeMonte/BYU':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Utah, 22UT019 - High Elevation Rock Mountain UT - LeMonte/BYU':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Utah, 22UT023 - High Elevation Rock Mountain UT - LeMonte/BYU':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Utah, 22UT032 - High Elevation Rock Mountain UT - LeMonte/BYU':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Utah, Moab':
+  count: 44
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Utah, Onaqui':
+  count: 209
+  latitude: 40.2106006
+  longitude: -112.5610339
+  status: success
+'USA: Utah, Red Butte Creek':
+  count: 29
+  latitude: 40.7776943
+  longitude: -111.8115658
+  status: success
+'USA: Utah, Salt Lake City':
+  count: 14
+  latitude: 40.7596198
+  longitude: -111.886797
+  status: success
+'USA: VA, Clarke':
+  count: 4
+  latitude: 39.119728
+  longitude: -77.9926448
+  status: success
+'USA: VA, Giles':
+  count: 3
+  latitude: 37.3088528
+  longitude: -80.7098781
+  status: success
+'USA: VA, Warren':
+  count: 4
+  latitude: 38.9131907
+  longitude: -78.2096656
+  status: success
+'USA: Virginia':
+  count: 16
+  latitude: 37.1232245
+  longitude: -78.4927721
+  status: success
+'USA: Virginia, Blandy Experimental Farm':
+  count: 62
+  latitude: 39.060711
+  longitude: -78.0655341
+  status: success
+'USA: Virginia, Lewis Run':
+  count: 20
+  latitude: 38.3051572
+  longitude: -77.6681658
+  status: success
+'USA: Virginia, Mountain Lake Biological Station':
+  count: 62
+  latitude: 37.3637602
+  longitude: -80.5226996
+  status: success
+'USA: Virginia, Posey Creek':
+  count: 38
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Virginia, Smithsonian Conservation Biology Institute':
+  count: 134
+  latitude: 38.8847957
+  longitude: -78.1461968
+  status: success
+'USA: WA, Clark':
+  count: 6
+  latitude: 45.7669047
+  longitude: -122.4940866
+  status: success
+'USA: WA, Skamania':
+  count: 5
+  latitude: 45.966211
+  longitude: -121.9278867
+  status: success
+'USA: WI, Lincoln':
+  count: 12
+  latitude: 45.3265631
+  longitude: -89.7326216
+  status: success
+'USA: Washing':
+  count: 2
+  latitude: 36.4318202
+  longitude: -84.6347342
+  status: success
+'USA: Washington':
+  count: 14
+  latitude: 38.8950368
+  longitude: -77.0365427
+  status: success
+'USA: Washington, Abby Road':
+  count: 30
+  latitude: 47.137935
+  longitude: -119.2978422
+  status: success
+'USA: Washington, Fluxtower location A3':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Washington, Fluxtower location A5':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Washington, Martha Creek':
+  count: 18
+  latitude: 45.7899062
+  longitude: -121.9362597
+  status: success
+'USA: Washington, Prosser Irrigated Bare':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Washington, Prosser Non-irrigated Bare':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Washington, Puget Sound':
+  count: 7
+  latitude: 47.7385375
+  longitude: -122.4302753
+  status: success
+'USA: Washington, Richland, Columbia River':
+  count: 10
+  latitude: 46.2267489
+  longitude: -119.2748696
+  status: success
+'USA: Washington, Wind River Experimental Forest':
+  count: 108
+  latitude: 45.8090043
+  longitude: -121.9823059
+  status: success
+'USA: West Virginia':
+  count: 4
+  latitude: 38.4758406
+  longitude: -80.8408415
+  status: success
+'USA: Wisconsin':
+  count: 476
+  latitude: 44.4308975
+  longitude: -89.6884637
+  status: success
+'USA: Wisconsin, Crampton Lake':
+  count: 12
+  latitude: 46.2089904
+  longitude: -89.4754728
+  status: success
+'USA: Wisconsin, Hancock':
+  count: 180
+  latitude: 44.133584
+  longitude: -89.523177
+  status: success
+'USA: Wisconsin, Little Rock Lake':
+  count: 6
+  latitude: 45.9975994
+  longitude: -89.7052372
+  status: success
+'USA: Wisconsin, Madison':
+  count: 3
+  latitude: 43.074761
+  longitude: -89.3837613
+  status: success
+'USA: Wisconsin, Oregon':
+  count: 144
+  latitude: 42.9259657
+  longitude: -89.3842779
+  status: success
+'USA: Wisconsin, Rhinelander':
+  count: 216
+  latitude: 45.636623
+  longitude: -89.412075
+  status: success
+'USA: Wisconsin, Steigerwaldt-Chequamegon':
+  count: 64
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Wisconsin, Treehaven':
+  count: 64
+  latitude: 45.4921665
+  longitude: -89.5638439
+  status: success
+'USA: Woodstock, New Hampshire':
+  count: 1
+  latitude: 44.0313089
+  longitude: -71.6868145
+  status: success
+'USA: Wyoming':
+  count: 5
+  latitude: 43.1700264
+  longitude: -107.568534
+  status: success
+'USA: Wyoming, 22WY001':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Wyoming, 22WY003':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Wyoming, 22WY009':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Wyoming, 22WY010':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Wyoming, 22WY015':
+  count: 2
+  latitude: null
+  longitude: null
+  status: failed
+'USA: Wyoming, Blacktail Deer Creek':
+  count: 21
+  latitude: 44.9249342
+  longitude: -110.5821362
+  status: success
+'USA: Wyoming, Yellowstone National Park':
+  count: 116
+  latitude: 44.6200885
+  longitude: -110.5606893
+  status: success
+'Ukraine: Chernobyl':
+  count: 110
+  latitude: 51.2705477
+  longitude: 30.2195609
+  status: success
+'United Kingdom: Arden':
+  count: 1
+  latitude: 55.8066303
+  longitude: -4.3307561
+  status: success
+'United Kingdom: English Channel':
+  count: 12
+  latitude: 50.780805
+  longitude: -0.678208
+  status: success
+'United Kingdom: Hampton in Arden, England':
+  count: 1
+  latitude: 52.4286358
+  longitude: -1.6997231
+  status: success
+'United Kingdom: Stafford, England':
+  count: 1
+  latitude: 52.8542169
+  longitude: -2.2583757
+  status: success
+'Western Australia: Coral Bay':
+  count: 15
+  latitude: -23.1436752
+  longitude: 113.770165
+  status: success
