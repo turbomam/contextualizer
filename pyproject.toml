@@ -24,6 +24,7 @@ dependencies = [
     "jupyterlab",
     "httpx",
     "mcp",
+    "ipywidgets"
 ]
 
 [project.scripts]

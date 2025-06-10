@@ -148,13 +148,6 @@ clean-test:
 	rm -f local/nmdc-*-test*.json
 	rm -f local/oak_ridge_*.json
 	
-# Create a backup of important data files
-backup-data:
-	mkdir -p backup
-	cp local/nmdc-biosamples.json backup/
-	cp local/Biosample.yaml backup/
-	cp nmdc-osm-envo-test-cases.json backup/
-
 # Documentation of available map types
 # - hybrid: Combines satellite imagery with road labels
 # - terrain: Already added - shows topographical features
